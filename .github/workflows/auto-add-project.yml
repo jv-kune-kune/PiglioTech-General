@@ -22,7 +22,7 @@ jobs:
             const projectNumber = 1; // Replace with your project number
             const orgName = "jv-kune-kune"; // Replace with your organization name
 
-            // Find the project using the GraphQL API
+            // Query to find the project ID
             const projectQuery = `
               query {
                 organization(login: "${orgName}") {
@@ -36,7 +36,7 @@ jobs:
             const projectResponse = await github.graphql(projectQuery);
             const projectId = projectResponse.organization.projectV2.id;
 
-            // Add the issue to the project
+            // Mutation to add the issue to the project
             const addItemMutation = `
               mutation($projectId: ID!, $contentId: ID!) {
                 addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
