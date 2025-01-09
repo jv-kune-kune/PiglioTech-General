@@ -1,0 +1,19 @@
+name: Auto Label Team
+
+on:
+  issues:
+    types: [opened] # Trigger the workflow when a new issue is opened
+
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Add team label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            ${{ contains(github.event.repository.full_name, 'FrontEnd') && '👥 frontend 🎨' }}
+            ${{ contains(github.event.repository.full_name, 'BackEnd') && '👥 backend 🛠️' }}
+            ${{ contains(github.event.repository.full_name, 'General') && '👥 project management 📋' }}
