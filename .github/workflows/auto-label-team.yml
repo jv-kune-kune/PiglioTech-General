@@ -5,17 +5,34 @@ on:
     types:
       - reopened
       - opened
+
 jobs:
   label_issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+
     steps:
-      - name: Add team label
+      # Add frontend label if the issue is in the FrontEnd repo
+      - name: Add frontend label
+        if: contains(github.event.repository.full_name, 'FrontEnd')
         uses: actions-ecosystem/action-add-labels@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            ${{ contains(github.event.repository.full_name, 'FrontEnd') && '👥 frontend 🎨' }}
-            ${{ contains(github.event.repository.full_name, 'BackEnd') && '👥 backend 🛠️' }}
-            ${{ contains(github.event.repository.full_name, 'General') && '👥 project management 📋' }}
+          labels: 👥 frontend 🎨
+
+      # Add backend label if the issue is in the BackEnd repo
+      - name: Add backend label
+        if: contains(github.event.repository.full_name, 'BackEnd')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: 👥 backend 🛠️
+
+      # Add project management label if the issue is in the General repo
+      - name: Add project management label
+        if: contains(github.event.repository.full_name, 'General')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: 👥 project management 📋
