@@ -1,0 +1,66 @@
+name: Auto Add Project
+
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+
+permissions:
+  issues: write
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check if the issue is already assigned to a project
+      - name: Add issue to project
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const projectName = "PiglioTech";
+            const { context } = require("@actions/github");
+
+            // Get all projects for the repository
+            const projects = await octokit.rest.projects.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            // Find the desired project by name
+            const project = projects.data.find(p => p.name === projectName);
+
+            if (!project) {
+              throw new Error(`Project '${projectName}' not found.`);
+            }
+
+            // Get the columns of the project
+            const columns = await octokit.rest.projects.listColumns({
+              project_id: project.id,
+            });
+
+            if (columns.data.length === 0) {
+              throw new Error(`Project '${projectName}' has no columns.`);
+            }
+
+            // Check if the issue is already in the project
+            const cards = await octokit.rest.projects.listCards({
+              column_id: columns.data[0].id,
+            });
+
+            const isAlreadyInProject = cards.data.some(card => card.content_url === context.payload.issue.url);
+
+            if (!isAlreadyInProject) {
+              // Add the issue to the first column of the project
+              await octokit.rest.projects.createCard({
+                column_id: columns.data[0].id,
+                content_id: context.payload.issue.id,
+                content_type: "Issue",
+              });
+
+              console.log(`Issue added to project: ${projectName}`);
+            } else {
+              console.log("Issue is already assigned to the project.");
+            }
