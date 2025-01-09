@@ -1,5 +1,4 @@
 [
-  // FLAG SECTION 🚩
   {
     "name": "🚩 blocked 🔒",
     "color": "d73a4a",
@@ -85,8 +84,6 @@
     "color": "fef2c0",
     "description": "Task is exploratory and involves investigation or research."
   },
-
-  // TEAM SECTION 👥
   {
     "name": "👥 frontend 🎨",
     "color": "207de5",
@@ -102,8 +99,6 @@
     "color": "fbca04",
     "description": "Task related to project management, workflows, or team coordination."
   },
-
-  // DESCRIPTOR SECTION 🏷️
   {
     "name": "🏷️ ui/ux 🖼️",
     "color": "a2eeef",
