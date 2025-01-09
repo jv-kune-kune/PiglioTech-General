@@ -14,14 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check if the issue is already assigned to a project
+      # Add the issue to a classic project
       - name: Add issue to project
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PROJECTS_TOKEN }}
           script: |
             const projectName = "PiglioTech";
-
             // Get all projects for the repository
             const projects = await github.rest.projects.listForRepo({
               owner: context.repo.owner,
