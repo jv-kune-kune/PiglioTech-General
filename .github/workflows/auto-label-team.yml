@@ -2,12 +2,14 @@ name: Auto Label Team
 
 on:
   issues:
-    types: [opened] # Trigger the workflow when a new issue is opened
-
+    types:
+      - reopened
+      - opened
 jobs:
-  add-label:
+  label_issues:
     runs-on: ubuntu-latest
-
+    permissions:
+      issues: write
     steps:
       - name: Add team label
         uses: actions-ecosystem/action-add-labels@v1
