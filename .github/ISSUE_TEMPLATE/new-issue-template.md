@@ -7,12 +7,21 @@ assignees: ''
 
 ---
 
-# H1 -  
+<!-- Provide a brief summary of what needs to be done as an H1 heading. -->
+# 
+
+<!-- Add any required details, references, or context as bullet points below. -->
 ## Details
--  
 - 
 
+<!-- Define scope and requirements, then add actionable tasks below. -->
 ## Tasks
--[ ] add tasks
--[ ] add all fields 
--[ ]
+- [ ] Refine issue and add initial tasks below.
+- [ ] *
+- [ ] Create a feature branch.
+- [ ] Implement the feature or fix.
+- [ ] Write or update tests.
+- [ ] Test locally and push changes.
+- [ ] Create a pull request (PR).
+- [ ] Request a code review and address feedback.
+- [ ] Merge PR and close the issue.
