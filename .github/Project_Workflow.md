@@ -54,7 +54,7 @@ We also cover:
    - *Note*: While you can create issues directly from the **Project screen**, this process is clunkier since the **Issues tab** is not available in the organisation-level project view. Starting from the repository ensures a smoother experience.
 
 2. **Submit the issue**:
-   - Once you’ve filled out the template, submit the issue.
+   - Once you’ve filled out the **template**, then **preview**, then **submit new issue**.
    - The issue will be automatically added to the relevant **Project** field in the right-hand sidebar.
 
 3. **Fill in the mandatory fields** in the right-hand sidebar:
