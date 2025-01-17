@@ -2,7 +2,16 @@
 name: New Issue Template
 about: Standard issue template to format new general issues.
 title: ''
-labels: "\U0001F465 project management \U0001F4CB"
+labels: ''
+assignees: ''
+
+---
+
+---
+name: New Issue Template
+about: Standard issue template to format new general issues.
+title: ''
+labels: ''
 assignees: ''
 
 ---
