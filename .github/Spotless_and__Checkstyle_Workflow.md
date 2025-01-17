@@ -8,12 +8,12 @@ This document contains all the required command-line instructions for completing
 ## Task Workflow
 
 ### 1. Run Style Check Report and Open the File
-To generate a Checkstyle report and open it for review in one step:
+Generate a Checkstyle report and open it for review:
 ```bash
 mvn checkstyle:checkstyle && open target/checkstyle-result.xml
 ```
 
-If you prefer an HTML report for easier review:
+For an HTML report (more readable):
 ```bash
 mvn site && open target/site/checkstyle.html
 ```
@@ -21,17 +21,15 @@ mvn site && open target/site/checkstyle.html
 ---
 
 ### 2. Run Spotless Check (Should Fail on First Run)
-Run the Spotless check to verify style violations (this should fail if there are issues):
+Run the Spotless check to verify style violations. This will fail if there are issues:
 ```bash
 mvn spotless:check
 ```
 
-You will see detailed output of the violations directly in the terminal.
-
 ---
 
 ### 3. Apply Spotless Fixes
-To automatically fix all detected style violations:
+Automatically fix all detected style violations:
 ```bash
 mvn spotless:apply
 ```
@@ -39,17 +37,17 @@ mvn spotless:apply
 ---
 
 ### 4. Re-run Spotless Check (Should Pass After Apply)
-Run the Spotless check again to ensure all issues have been resolved:
+Verify that all issues have been resolved:
 ```bash
 mvn spotless:check
 ```
 
-At this point, the command should complete successfully with no errors.
+At this point, the command should complete successfully without errors.
 
 ---
 
 ### 5. Review and Roll Back Changes (If Necessary)
-If you need to undo changes made by Spotless for review or adjustment, use:
+To undo changes made by Spotless for review or adjustment:
 ```bash
 git restore .
 ```
@@ -57,71 +55,49 @@ git restore .
 ---
 
 ### 6. Modifying Spotless Configuration in CI Pipeline
-    The pipeline currently includes the following step for Spotless:
-    ```yaml
-    # Step 5: Run Spotless Check
-    - name: Run Spotless Check
-      run: |
-          mvn spotless:check || echo "Spotless violations detected. Check the logs for details."
-    ```
 
----
+#### Current Spotless Configuration
+The pipeline currently runs Spotless in a non-blocking way:
+```yaml
+# Step 5: Run Spotless Check
+- name: Run Spotless Check
+  run: |
+      mvn spotless:check || echo "Spotless violations detected. Check the logs for details."
+```
 
-    ####  Run Spotless Without Applying Fixes (Current Setup)
+#### 6.1 Run Spotless Without Applying Fixes
+No changes are needed if you want Spotless to only check for violations. It will:
+- Run `mvn spotless:check`.
+- Fail the pipeline if violations are found (unless mitigated by `|| echo ...`).
 
-    ## 1. If you want Spotless to only check for violations without applying fixes, **no changes are needed**. The current configuration will:
-    - Run `mvn spotless:check`.
-    - Fail the pipeline if violations are found (unless mitigated by `|| echo ...`).
+#### 6.2 Automatically Apply Spotless Fixes in the Pipeline
+To make Spotless automatically fix style issues, update the pipeline step to:
+```yaml
+# Step 5: Run Spotless Apply
+- name: Run Spotless Apply
+  run: mvn spotless:apply
+```
 
-    ### Logs
-    Violations will appear in the logs, and developers can manually fix them by running `mvn spotless:apply` locally.
+This will automatically format the code. Any changes will need to be reviewed and committed by a developer.
 
----
+#### 6.3 Enforce Clean Code by Failing the Pipeline if Fixes Were Needed
+To ensure clean code and fail the pipeline if unresolved issues remain, use this configuration:
+```yaml
+# Step 5a: Run Spotless Apply
+- name: Run Spotless Apply
+  run: mvn spotless:apply
 
-    ## 2. Automatically Apply Spotless Fixes in the Pipeline
-
-    To make Spotless automatically fix style issues during the pipeline:
-
-    ### Update the Step in Your CI Workflow
-
-    Replace the Spotless step in your workflow with:
-    ```yaml
-    # Step 5: Run Spotless Apply
-    - name: Run Spotless Apply
-      run: mvn spotless:apply
-    ```
-
-    ### Result
-    - This will modify code to adhere to the style guidelines automatically.
-    - Any changes made will need to be committed back to the repository by a developer after review.
-
----
-
-    ## 3. Fail the Pipeline if Spotless Fixes Were Needed
-
-    If you want to enforce clean code but fail the pipeline when fixes are needed, add a Spotless check **after** the `apply` step.
-
-    ### Example Configuration:
-    ```yaml
-    # Step 5: Run Spotless Apply
-    - name: Run Spotless Apply
-      run: mvn spotless:apply
-
-    # Step 6: Verify Spotless Check Passes
-    - name: Verify Spotless Check
-      run: mvn spotless:check
-    ```
-
-    ### Result
-    - Spotless will first fix the code.
-    - The pipeline will then fail if `mvn spotless:check` finds unresolved issues (e.g., if some formatting couldn't be auto-corrected).
+# Step 5b: Verify Spotless Check Passes
+- name: Verify Spotless Check
+  run: mvn spotless:check
+```
 
 ---
 
 ## Notes
 
-- Ensure that changes made by Spotless are reviewed before merging to `main`. Automatically committing changes within the pipeline is discouraged as it may bypass code reviews.
-- Spotless fixes can be tested locally before pushing to avoid pipeline failures.
+- Review changes made by Spotless before merging into `main`.
+- Automatically committing changes directly from the pipeline is discouraged to ensure proper code review processes.
 
 ---
 
@@ -129,11 +105,11 @@ git restore .
 
 ### Full Example for Automatically Applying Spotless Fixes
 ```yaml
-# Step 5: Run Spotless Apply
+# Step 5a: Run Spotless Apply
 - name: Run Spotless Apply
   run: mvn spotless:apply
 
-# Step 6: Verify Spotless Check Passes
+# Step 5b: Verify Spotless Check Passes
 - name: Verify Spotless Check
   run: mvn spotless:check
 ```
@@ -145,6 +121,7 @@ git restore .
   run: |
       mvn spotless:check || echo "Spotless violations detected. Check the logs for details."
 ```
+
 ---
 
 ## General Git Commands for the Workflow
@@ -172,8 +149,8 @@ git restore .
 
 ---
 
-## Notes
+## Final Notes
 
 - Spotless is used for automatic style fixes, while Checkstyle provides detailed reporting of coding standard violations.
-- Always review the changes made by Spotless to ensure alignment with team coding standards before committing.
+- Always review changes made by Spotless to ensure alignment with team coding standards before committing.
 - Integrating Spotless into the CI/CD pipeline ensures consistent style enforcement across the codebase.
