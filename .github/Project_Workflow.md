@@ -46,8 +46,12 @@ We also cover:
 ## Workflow Overview
 
 1. **Create a new issue** using our **issue template**.
-   - Open the repository where the issue needs to be created.
-   - Select the template and provide an initial description, title, and tasks.
+   - **Go to the repository** where the issue needs to be created. For example:
+     - [Frontend Repository](https://github.com/jv-kune-kune/PiglioTech-FrontEnd)
+     - [Backend Repository](https://github.com/jv-kune-kune/PiglioTech-BackEnd)
+   - Navigate to the **Issues tab** in the repository and click **New Issue**.
+   - Select the appropriate issue template and provide an initial description, title, and tasks.
+   - *Note*: While you can create issues directly from the **Project screen**, this process is clunkier since the **Issues tab** is not available in the organisation-level project view. Starting from the repository ensures a smoother experience.
 
 2. **Submit the issue**:
    - Once you’ve filled out the template, submit the issue.
