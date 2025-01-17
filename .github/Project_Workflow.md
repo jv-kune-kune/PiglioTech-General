@@ -53,20 +53,20 @@ We also cover:
    - Select the appropriate issue template and provide an initial description, title, and tasks.
    - *Note*: While you can create issues directly from the **Project screen**, this process is clunkier since the **Issues tab** is not available in the organisation-level project view. Starting from the repository ensures a smoother experience.
 
-2. **Submit the issue**:
+2. **Use a conventional commit style** in the issue title:
+   - Format the title with prefixes like `feat:`, `fix:`, or `chore:`.
+   - Example: `feat: add "Favourites" button to book cards`.
+     
+3. **Submit the issue**:
    - Once you’ve filled out the **template**, then **preview**, then **submit new issue**.
    - The issue will be automatically added to the relevant **Project** field in the right-hand sidebar.
 
-3. **Fill in the mandatory fields** in the right-hand sidebar:
+4. **Fill in the mandatory fields** in the right-hand sidebar:
    - Navigate to the **Project** section in the sidebar, where mandatory fields will now be visible.
    - Fill out the required fields:
      - **Requirement**: Choose from `must have`, `should have`, `could have`, or `will not have`.
      - **Priority**: Assign a priority level (`P0`, `P1`, `P2`, `P3`).
      - **Size**: Choose the effort estimate (`XXS` to `XXL`).
-
-4. **Use a conventional commit style** in the issue title:
-   - Format the title with prefixes like `feat:`, `fix:`, or `chore:`.
-     - Example: `feat: add "Favourites" button to book cards`.
 
 5. **Automations** will populate or handle additional fields:
    - **Type**: Derived from the title prefix (e.g., `feat`, `fix`).
@@ -75,11 +75,11 @@ We also cover:
    - **Start Date**: Automatically added when the issue is first moved to "In Progress."
    - **End Date**: Automatically added when the issue is closed.
 
-6. **Assign a Milestone (if applicable)**:
+6. **Assign a Milestone** (if applicable):
    - If the issue is tied to a specific release or project goal, add a milestone from the right-hand sidebar.
    - Milestones will propagate to related branches, commits, and pull requests.
 
-7. **Labels**:
+7. **Labels** (optional):
    - Add descriptive labels to categorize the issue (e.g., `team`, `UI`, `backend`).
    - Labels may also be auto-added based on text analysis of the issue content.
 
